@@ -1,0 +1,55 @@
+body {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+#nav {
+    padding: 1em;
+    margin: 0;
+    background: #eee;
+}
+
+#nav li {
+    display: inline;
+    font-size: 0.9em;
+    margin-right: 1em;
+}
+
+#nav h1 {
+    font-size: 1em;
+}
+
+.container, #nav {
+    max-width: 45em;
+    margin: 0 auto;
+}
+
+#nav, h1, h2, h3, h4, h5 {
+    font-family: Futura, "Gill Sans", sans-serif;
+}
+
+.toc {
+    font-size: 0.9em;
+    padding: 0.5em;
+    margin: 0.5em;
+    max-width: 30em;
+        font-family: Futura, "Gill Sans", sans-serif;
+}
+
+.toc:before {
+    content: "Table of Contents";
+    font-weight: bold;
+}
+
+pre, code {
+    padding: 0.25em;
+    background-color: #eee;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+}
+
+code, pre {
+    overflow-y: scroll;
+}

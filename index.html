@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8" />
+	<title>ASPC Technical Documentation &mdash; Club Webmaster Guide</title>
+	<meta name="author" content="ASPC Webmaster">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="assets/stylesheets/styles.css">
+</head>
+<body>
+	<div class="container">
+<h1 id="using-your-aspc-web-hosting">Using your ASPC web hosting</h1>
+<div class="toc">
+<ul>
+<li><a href="#using-your-aspc-web-hosting">Using your ASPC web hosting</a></li>
+<li><a href="#the-welcome-email">The Welcome Email</a></li>
+<li><a href="#connecting">Connecting</a><ul>
+<li><a href="#windows">Windows</a></li>
+<li><a href="#mac">Mac</a></li>
+<li><a href="#linux">Linux</a></li>
+<li><a href="#first-connection">First Connection</a></li>
+</ul>
+</li>
+<li><a href="#the-public-folder">The <code>public</code> Folder</a></li>
+<li><a href="#databases">Databases</a></li>
+<li><a href="#an-example-setting-up-wordpress-with-a-piccolo-site">An example: Setting up Wordpress with a <code>piccolo</code> site</a></li>
+<li><a href="#advanced-information">Advanced Information</a><ul>
+<li><a href="#proxying-information">Proxying Information</a></li>
+<li><a href="#the-site-user">The Site User</a></li>
+<li><a href="#file-structure">File Structure</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The ASPC server is set up to provide convenient and secure web hosting for clubs and student organizations. When you request a club web site, the ASPC webmaster will create a user account for you and a site account for managing the site.</p>
+<h1 id="the-welcome-email">The Welcome Email</h1>
+<p>When the ASPC webmaster adds your account, the system will send you an email with your login credentials. It'll look a bit like this:</p>
+<pre><code>Hello Test User,
+
+An account has been created for you on the Peninsula server. From within
+the Claremont Colleges, you may ssh in with "ssh
+testuser@aspc.pomona.edu". (Outside of the Claremont Colleges, you will
+need to set up a Pomona VPN account to access the server.)
+
+Your password has been set to 5FAqQZthZ2WF. When you first log in, you
+will be required to change it.
+
+When your account is given access to administer a site, you will receive
+another email with more information.
+
+If you have any questions, you can contact webmaster@aspc.pomona.edu
+
+Your humble servant,
+The ASPC System
+</code></pre>
+<p>From this, note that this user's username is <code>testuser</code> (from the <code>ssh testuser@aspc.pomona.edu</code> line), and password is <code>5FAqQZthZ2WF</code>. Yours will be different, of course. In the <strong>Connecting</strong> step, you will need this username and password.</p>
+<h1 id="connecting">Connecting</h1>
+<p>To connect to Peninsula, you will need to use SSH and SFTP. SSH and SFTP are industry-standard tools for administering servers, and it should be easy to find documentation if you get stuck.</p>
+<p>(n.b. SFTP in this case means 'SSH File Transfer Protocol', not 'SSL/Secure File Transfer Protocol'. Some clients do not support both.)</p>
+<p>Connection information:</p>
+<ul>
+<li>Hostname: <code>peninsula.pomona.edu</code></li>
+<li>Port: 22 (default for SSH)</li>
+</ul>
+<p><strong>Note</strong>: ITS has a filter that blocks SSH access from off-campus IP addresses, but any connection on a 5C campus should work. If you need access from off-campus (i.e. outside the Claremont IP address range), you will need to set up a <a href="http://its.pomona.edu/services/network/virtual-private-networking/">VPN connection</a>.</p>
+<h2 id="windows">Windows</h2>
+<p>Windows does not ship with SSH installed, so you will need an SSH client. In the past, Windows users have reported that <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTY</a> works well.</p>
+<p>Once you've downloaded PuTTY, open it and enter <code>peninsula.pomona.edu</code> in the box labeled "Host name". Ensure that the connection type is set to "SSH", and click the "Open" button at the bottom of the connection window. If you haven't used this account before, see the <strong>First Connection</strong> section for more instructions.</p>
+<p>You will need to go through the steps in <strong>First Connection</strong> using PuTTY, but if you only need to transfer files, you can use <a href="http://filezilla-project.org/">FileZilla</a> with the same login credentials you set up to get a graphical view of the folders you have access to.</p>
+<h2 id="mac">Mac</h2>
+<p>Macs come with SSH installed by default, so you can just open Terminal (from /Applications/Utilities/) and run the following command to connect to Peninsula via SSH:</p>
+<pre><code>ssh myusername@peninsula.pomona.edu
+</code></pre>
+<p>(replacing <code>myusername</code> with your actual username). If this is the first time you are connecting, see the instructions on setting your password in the <strong>First Connection</strong> section.</p>
+<p>If you are only uploading and downloading files from your web space, you can manage your site's files with a graphical interface over SFTP. One free tool that gives you a graphical interface is <a href="http://cyberduck.ch/">Cyberduck</a>. You can use the username from the welcome email and the password you set up under <strong>First Connection</strong>.</p>
+<h2 id="linux">Linux</h2>
+<p>If you're using Linux, you probably have SSH installed already. You can open up a terminal and use the following command to connect:</p>
+<pre><code>ssh myusername@peninsula.pomona.edu
+</code></pre>
+<p>(replacing <code>myusername</code> with your actual username). The best SFTP client for you to use will depend on what's available for your distribution, but Google should be able to help.</p>
+<h2 id="first-connection">First Connection</h2>
+<p>The first time you connect to Peninsula, you will receive two prompts:</p>
+<p>The first will look something like this, though it will vary depending on your SSH client. You should accept the fingerprint by clicking or typing "yes" as appropriate.</p>
+<pre><code>The server's host key is not cached in the registry. You
+have no guarantee that the server is the computer you
+think it is.
+The server's rsa2 key fingerprint is:
+ssh-rsa 1024 7b:e5:6f:a7:f4:f9:81:62:5c:e3:1f:bf:8b:57:6c:5a
+If you trust this host, hit Yes to add the key to
+PuTTY's cache and carry on connecting.
+If you want to carry on connecting just once, without
+adding the key to the cache, hit No.
+If you do not trust this host, hit Cancel to abandon the
+connection.
+</code></pre>
+<p>Next, you will be asked to provide a username and password (or just a password, if you are on Linux or Mac). See the email you received from <code>system@aspc.pomona.edu</code> for this information.</p>
+<p>The other prompt you will get on your first connection with a new account is this:</p>
+<pre><code>You are required to change your password immediately (root enforced)
+Welcome to Ubuntu 11.04 (GNU/Linux 2.6.38-11-server x86_64)
+
+ * Documentation:  http://www.ubuntu.com/server/doc
+
+  System information as of Thu Oct  6 11:40:32 PDT 2011
+
+  System load:  0.01               Processes:           269
+  Usage of /:   19.8% of 96.21GB   Users logged in:     1
+  Memory usage: 61%                IP address for eth0: 134.173.76.241
+  Swap usage:   5%
+
+  Graph this data and manage this system at https://landscape.canonical.com/
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+WARNING: Your password has expired.
+You must change your password now and login again!
+Changing password for testuser.
+(current) UNIX password:
+</code></pre>
+<p>At this prompt, enter your password from the email again. You will then get another prompt that looks like this:</p>
+<pre><code>Enter new UNIX password:
+Retype new UNIX password:
+</code></pre>
+<p>Set a good new password for yourself. If your password is too short or too simple, the server will refuse to change it and you will have to start the connection over. A good rule of thumb is to use a password that is longer than 8 characters and is a mix of letters, numbers, and symbols.</p>
+<p>When you successfully change your password, the server will disconnect you so that you can log in with your new credentials.</p>
+<pre><code>passwd: password updated successfully
+Connection to aspc.pomona.edu closed.
+</code></pre>
+<p>Now you can connect normally with your new password!</p>
+<h1 id="the-public-folder">The <code>public</code> Folder</h1>
+<p>By default, this is the document root for your website. In other words, this is where you put the files that you want to serve to the public as your site. </p>
+<p>For example, if you had a site named <code>sitename</code> and wanted to share a photo of your club's last meeting that you had saved as <code>club_members_fall.jpg</code>, you would:</p>
+<ol>
+<li>connect to the ASPC server with your favorite SFTP client</li>
+<li>choose the folder called <code>sitename</code></li>
+<li>choose the <code>public</code> folder inside that</li>
+<li>upload your file</li>
+</ol>
+<p>Then you'd visit <code>http://sitename.aspc.pomona.edu/club_members_fall.jpg</code> and see your photo!</p>
+<p><strong>Technical note:</strong> This folder has the setgid permission enabled, so files saved in it will be editable by other administrators of the site (if there are more than one), or by the site user (see Advanced Topics).</p>
+<h1 id="databases">Databases</h1>
+<p>If your site needs a MySQL or PostgreSQL database, you must contact the ASPC webmaster (webmaster@aspc.pomona.edu) to have it provisioned.</p>
+<p>You can find login information in <code>~/sitename/config/database_credentials.txt</code>, and a list of databases your site has access to in <code>~/sitename/config/databases.txt</code>.</p>
+<p>(There is no phpMyAdmin instance on Peninsula, but you can connect to the server with a GUI database browser yourself if you wish.)</p>
+<h1 id="an-example-setting-up-wordpress-with-a-piccolo-site">An example: Setting up Wordpress with a <code>piccolo</code> site</h1>
+<p>One common strategy for getting a website online that can be edited by non-technical users is to install Wordpress. Here's how to go about it:</p>
+<ol>
+<li>Request a MySQL database from the ASPC Webmaster (generally named <code>sitename_wp</code>)</li>
+<li>
+<p>Connect to Peninsula via ssh</p>
+<pre><code>ssh myusername@peninsula.pomona.edu
+</code></pre>
+</li>
+<li>
+<p>Change directories to your site's public folder</p>
+<pre><code>cd ~/sitename/public/
+</code></pre>
+</li>
+<li>
+<p>(optional) If this is a new site, delete index.html</p>
+<pre><code>rm -f index.html
+</code></pre>
+</li>
+<li>
+<p>Download Wordpress</p>
+<pre><code>curl -OL http://wordpress.org/latest.zip
+</code></pre>
+</li>
+<li>
+<p>Extract it and move the <code>wordpress</code> folder into your site's root folder</p>
+<pre><code>unzip latest.zip
+rm latest.zip
+mv wordpress/* ./
+rm -r wordpress
+</code></pre>
+</li>
+<li>
+<p>Change the permissions of the Wordpress files so site administrators (and only site administrators) can edit them:</p>
+<pre><code>chmod -R g+w,o= ./*
+</code></pre>
+</li>
+<li>
+<p>In the next step, you will need the database information for your site</p>
+<pre><code>cat ~/sitename/config/database*
+</code></pre>
+</li>
+<li>
+<p>Visit http://sitename.aspc.pomona.edu/ and follow the installation instructions</p>
+</li>
+<li>
+<p>Because Wordpress makes wp-config.php open to everyone by default during the install, you need to change its permissions</p>
+<pre><code>chmod u=rw,g=rw,o= ./wp-config.php
+</code></pre>
+</li>
+</ol>
+<p>Now you should have a working Wordpress installation at http://sitename.aspc.pomona.edu/!</p>
+<h1 id="advanced-information">Advanced Information</h1>
+<h2 id="proxying-information">Proxying Information</h2>
+<p>The way Peninsula works is by providing each site with its own instance of nginx, a lightweight web server. This instance runs on a Unix socket, and the main instance of <code>nginx</code> that faces the public will proxy requests to it based on which domains are associated with your site.</p>
+<p>This means you have full control over the request once it is passed to your nginx instance, and you can do whatever you want with it. This could mean adding a Django or Rails application and telling your private instance of nginx to proxy to it, adding URL rewriting rules, or even removing all the PHP handling for your site (for security or speed reasons).</p>
+<h2 id="the-site-user">The Site User</h2>
+<p>Each <code>piccolo</code> site has a corresponding user account on Peninsula that is not set up for public login. This user account 'owns' the configuration files for the site, and it is under this name that the nginx and PHP5-FPM instances run.</p>
+<p>This user is a member of the site's administrators group, and all members of the administrators group have access to "impersonate" the site using <code>sudo -u sitename commandname</code></p>
+<p>Because it's just a regular user, you can put things in its crontab. One common use is to have a task that runs on startup. To edit the crontab, use <code>sudo -u sitename crontab -e</code></p>
+<p>Here's an example from the ASPC main site that runs a script from /srv/www/main/bin/ at bootup:</p>
+<pre><code>@reboot /srv/www/main/bin/gunicorn.sh start
+</code></pre>
+<h2 id="file-structure">File Structure</h2>
+<p>This is the file structure of a pristine piccolo-provisioned site:</p>
+<pre><code>someclubsite
+├── bin
+│   ├── httpd.sh -- A script to control the web server for this site (e.g. `~/someclubsite/bin/httpd.sh start`)
+│   └── php.sh -- A script to control the PHP pool for this site (e.g. `~/someclubsite/bin/php.sh start`)
+├── config
+│   ├── database_credentials.txt -- Username and password for connecting to MySQL and PostgreSQL
+│   ├── databases.txt -- List of databases this site has access to
+│   ├── logrotate.conf -- Default log rotation configuration (run monthly by cron)
+│   ├── nginx.conf -- nginx web server configuration
+│   └── php5-fpm.conf -- PHP pool configuration
+├── logs
+│   ├── access.log -- Access log for this site
+│   ├── error.log -- Error log for this site
+│   └── php5-fpm.log -- PHP pool log for this site
+├── public
+│   └── index.html -- Placeholder homepage
+├── run
+│   ├── nginx.pid -- process id of running nginx
+│   ├── nginx.sock -- nginx socket
+│   ├── php5-fpm.pid -- process id of PHP pool
+│   └── php5-fpm.sock -- PHP pool socket
+└── temp -- Temporary files used by running site
+    └── nginx
+        ├── body
+        ├── fastcgi
+        ├── proxy
+        ├── scgi
+        └── uwsgi
+</code></pre>
+	</div><!-- container -->
+
+
+<!-- End Document
+================================================== -->
+</body>
+</html>
