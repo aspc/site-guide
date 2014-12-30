@@ -35,6 +35,7 @@
 <li><a href="#an-example-setting-up-wordpress-with-a-piccolo-site">An example: Setting up Wordpress with a <code>piccolo</code> site</a></li>
 <li><a href="#advanced-information">Advanced Information</a><ul>
 <li><a href="#proxying-information">Proxying Information</a></li>
+<li><a href="#ssl-configuration">SSL Configuration</a></li>
 <li><a href="#the-site-user">The Site User</a></li>
 <li><a href="#file-structure">File Structure</a></li>
 </ul>
@@ -211,6 +212,11 @@ rm -r wordpress
 <h2 id="proxying-information">Proxying Information</h2>
 <p>The way Peninsula works is by providing each site with its own instance of nginx, a lightweight web server. This instance runs on a Unix socket, and the main instance of <code>nginx</code> that faces the public will proxy requests to it based on which domains are associated with your site.</p>
 <p>This means you have full control over the request once it is passed to your nginx instance, and you can do whatever you want with it. This could mean adding a Django or Rails application and telling your private instance of nginx to proxy to it, adding URL rewriting rules, or even removing all the PHP handling for your site (for security or speed reasons).</p>
+
+<h2 id="ssl-configuration">SSL Configuration</h2>
+<p>Club sites are by default not configured to serve a valid SSL certification for incoming connections on port 443. Instead, a self-signed certificate will be used to initially broker the connection, whereupon all subsequent requests will be forwarded to HTTP instead of HTTPS.</p>
+<p>If you would like to install an SSL certificate on your site, let the ASPC webmaster know. You just have to purchase the certificate from a trusted certificate authority and we will handle all of the <code>nginx</code> configuration.</p>
+
 <h2 id="the-site-user">The Site User</h2>
 <p>Each <code>piccolo</code> site has a corresponding user account on Peninsula that is not set up for public login. This user account 'owns' the configuration files for the site, and it is under this name that the nginx and PHP5-FPM instances run.</p>
 <p>This user is a member of the site's administrators group, and all members of the administrators group have access to "impersonate" the site using <code>sudo -u sitename commandname</code></p>
@@ -218,6 +224,7 @@ rm -r wordpress
 <p>Here's an example from the ASPC main site that runs a script from /srv/www/main/bin/ at bootup:</p>
 <pre><code>@reboot /srv/www/main/bin/gunicorn.sh start
 </code></pre>
+
 <h2 id="file-structure">File Structure</h2>
 <p>This is the file structure of a pristine piccolo-provisioned site:</p>
 <pre><code>someclubsite
